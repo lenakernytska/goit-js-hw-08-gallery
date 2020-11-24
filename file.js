@@ -51,24 +51,32 @@ function imageClickHandler(event) {
         return;
     }
     const image = event.target;
-    const largeImage = image.dataset.source;
 
+    const largeImage = image.dataset.source;
+    refs.lightboxImg.src = largeImage;
+
+    const largeImageAlt = image.alt;
+    refs.lightboxImg.alt = largeImageAlt;
+
+    const largeImageIndex = image.dataset.index;
+    refs.lightboxImg.dataset.index = largeImageIndex;
     onClickModal();
-    setLargeImageSrc(largeImage);
+    // setLargeImageSrc(largeImage);
 }
 
 
 
 function onClickModal() {
-    window.addEventListener('keydown', onPressEsc);
-    window.addEventListener('keydown', onPressLeftRight);
     refs.lightbox.classList.add('is-open'); 
+     window.addEventListener('keydown', onPressEsc);
+    window.addEventListener('keydown', onPressLeftRight);
 }
 
    
-function setLargeImageSrc(url) {
-    refs.lightboxImg.src = url;
-}
+// function setLargeImageSrc(url) {
+//     refs.lightboxImg.src = url;
+//     refs.lightboxImg.src = image.alt;
+// }
 
 
 function onCloseModalButton() {
@@ -76,6 +84,8 @@ function onCloseModalButton() {
     window.removeEventListener('keydown', onPressLeftRight);
     refs.lightbox.classList.remove('is-open'); 
     refs.lightboxImg.src = '';
+    refs.lightboxImg.alt = '';
+     refs.lightboxImg.dataset.index = '';
 }
    
 
@@ -94,14 +104,16 @@ function onPressEsc(event) {
 
 
 function onPressLeftRight(event) {
-    let img = event.target.firstElementChild;
-    let activeIndex = Number(img.dataset.index);
-    
-    if (event.code === 'ArrowLeft' && activeIndex > 0) {
-        refs.lightboxImg.src = galleryItems[activeIndex - 1].original;
-      
-    }else if (event.code === 'ArrowRight' && activeIndex < galleryItems.length) {
-    refs.lightboxImg.src = galleryItems[activeIndex + 1].original;
+  const jsGalleryImg = document.querySelectorAll('.gallery__image');
+    let activeIndex = Number(refs.lightboxImg.dataset.index);
+        if (event.code === 'ArrowLeft' && activeIndex > 0) {
+            refs.lightboxImg.src = jsGalleryImg[activeIndex - 1].dataset.source;
+            refs.lightboxImg.alt = jsGalleryImg[activeIndex - 1].alt;
+            refs.lightboxImg.dataset.index = jsGalleryImg[activeIndex - 1].dataset.index;
+        } else if (event.code === 'ArrowRight' && activeIndex < jsGalleryImg.length-1) {
+           refs.lightboxImg.src = jsGalleryImg[activeIndex + 1].dataset.source;
+           refs.lightboxImg.alt = jsGalleryImg[activeIndex + 1].alt;
+           refs.lightboxImg.dataset.index = jsGalleryImg[activeIndex + 1].dataset.index;
+        }
     }
-}
 
