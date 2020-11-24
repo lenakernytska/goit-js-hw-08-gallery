@@ -61,7 +61,7 @@ function imageClickHandler(event) {
     const largeImageIndex = image.dataset.index;
     refs.lightboxImg.dataset.index = largeImageIndex;
     onClickModal();
-    // setLargeImageSrc(largeImage);
+  
 }
 
 
@@ -73,10 +73,6 @@ function onClickModal() {
 }
 
    
-// function setLargeImageSrc(url) {
-//     refs.lightboxImg.src = url;
-//     refs.lightboxImg.src = image.alt;
-// }
 
 
 function onCloseModalButton() {
